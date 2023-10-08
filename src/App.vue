@@ -12,7 +12,7 @@ import zhTW from 'element-plus/lib/locale/lang/zh-tw'
 import en from 'element-plus/lib/locale/lang/en'
 import setThemeMode from '@/utils/set-theme-mode'
 import { useStore } from '@/stores'
-import { getLanguageByRegion, getRegionByIP, setWindowTitle, throttle } from '@/utils'
+import { setWindowTitle, throttle } from '@/utils'
 import { ElementPlusSizeEnum, LanguageEnum } from '@/common/model'
 import MainContainer from '@/views/main-container/main-container.vue'
 import router from '@/router'
@@ -59,54 +59,54 @@ const setLanguage = (language: LanguageEnum) => {
   setWindowTitle(router.currentRoute.value.meta.title as string)
 }
 
-const initSetLanguage = () => {
-  // 初始化设置
-  setLanguage(userSettings.language)
+// const initSetLanguage = () => {
+//   // 初始化设置
+//   setLanguage(userSettings.language)
 
-  // 根据 IP 自动设置
-  getRegionByIP().then((region) => {
-    const language = getLanguageByRegion(region)
+//   // 根据 IP 自动设置
+//   getRegionByIP().then((region) => {
+//     const language = getLanguageByRegion(region)
 
-    if (language !== userSettings.language) {
-      const confirmTxt = instance?.proxy?.$t(`confirm`, language)
-      const cancelTxt = instance?.proxy?.$t(`cancel`, language)
-      const msgTxt = instance?.proxy?.$t(`toggle-language-msg`, language, {
-        region: instance?.proxy?.$t(`region.${region}`, language),
-        language: instance?.proxy?.$t(`language.${language}`, language)
-      })
+//     if (language !== userSettings.language) {
+//       const confirmTxt = instance?.proxy?.$t(`confirm`, language)
+//       const cancelTxt = instance?.proxy?.$t(`cancel`, language)
+//       const msgTxt = instance?.proxy?.$t(`toggle-language-msg`, language, {
+//         region: instance?.proxy?.$t(`region.${region}`, language),
+//         language: instance?.proxy?.$t(`language.${language}`, language)
+//       })
 
-      const msgInstance = ElMessage({
-        customClass: 'toggle-language-message',
-        duration: 0,
-        offset: 20,
-        message: `<div class="content-box">
-                    <span class="msg">${msgTxt}</span>
-                    <spna class="btn-box">
-                      <span class="confirm btn">${confirmTxt}</span>
-                      <span class="cancel btn">${cancelTxt}</span>
-                    </spna>
-                  </div>`,
-        dangerouslyUseHTMLString: true
-      })
+//       const msgInstance = ElMessage({
+//         customClass: 'toggle-language-message',
+//         duration: 0,
+//         offset: 20,
+//         message: `<div class="content-box">
+//                     <span class="msg">${msgTxt}</span>
+//                     <spna class="btn-box">
+//                       <span class="confirm btn">${confirmTxt}</span>
+//                       <span class="cancel btn">${cancelTxt}</span>
+//                     </spna>
+//                   </div>`,
+//         dangerouslyUseHTMLString: true
+//       })
 
-      document
-        .querySelector('.toggle-language-message .content-box .confirm')
-        ?.addEventListener('click', () => {
-          setLanguage(language)
-          store.dispatch('SET_USER_SETTINGS', {
-            language
-          })
-          msgInstance.close()
-        })
+//       document
+//         .querySelector('.toggle-language-message .content-box .confirm')
+//         ?.addEventListener('click', () => {
+//           setLanguage(language)
+//           store.dispatch('SET_USER_SETTINGS', {
+//             language
+//           })
+//           msgInstance.close()
+//         })
 
-      document
-        .querySelector('.toggle-language-message .content-box .cancel')
-        ?.addEventListener('click', () => {
-          msgInstance.close()
-        })
-    }
-  })
-}
+//       document
+//         .querySelector('.toggle-language-message .content-box .cancel')
+//         ?.addEventListener('click', () => {
+//           msgInstance.close()
+//         })
+//     }
+//   })
+// }
 
 const init = () => {
   elementPlusSizeHandle(window.innerWidth)
@@ -118,7 +118,7 @@ const init = () => {
   )
 
   setThemeMode()
-  initSetLanguage()
+  // initSetLanguage()
 }
 
 watch(
